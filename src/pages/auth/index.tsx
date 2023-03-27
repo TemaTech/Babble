@@ -1,19 +1,50 @@
-import { Container, Flex, Text } from "@chakra-ui/layout";
-import { Logotype } from './components/Logotype'
-import { SignInWithGoogleButton } from './components/SignInWithGoogleButton'
-import { SignInText } from './components/SignInText'
+import { Flex, Grid, Heading, Spacer } from "@chakra-ui/layout";
+import { useState } from "react";
+import { SignUp } from './components/SignUp'
+import { SignIn } from './components/SignIn'
+import { Image } from "@chakra-ui/image";
+import { SmallLogoIcon } from "../../icons/SmallLogoIcon";
+import { FullLogoIcon } from "../../icons/FullLogoIcon";
+import { Button } from "@chakra-ui/button";
+import { useMediaQuery } from "@chakra-ui/media-query";
 
 export const Auth = () => {
+  const [mode, setMode] = useState<"signIn" | "signUp">("signIn");
+  const [lgBreakpoint] = useMediaQuery("(min-width: 62em)")
+
   return (
-    <Container maxW='4xl' h='90vh' p='5' display='flex' justifyContent='center' alignItems='center'>
-      <Flex direction="column" gap='5' align='center' justify='center'>
-        <Logotype />
-        <Flex direction='column' gap='5' w={{ base: 'xs', md: 'md', lg: 'lg' }} p='5' bg='blue.100' borderRadius='10' boxShadow='xl' >
-          <SignInText />
-          <Text textAlign='center' fontSize='xl' fontWeight='bold' color='blue.800'>It seems like you're not signed in. Why not do it now and join the party? 🎉</Text>
-          <SignInWithGoogleButton />
-        </Flex>
+    <Grid h='100vh' w='100vw' gridTemplateColumns={{ base: '1fr', lg: '1fr 1fr' }} placeItems='center'>
+      <Flex direction='column' gap='5' w='70%'>
+        {
+          !lgBreakpoint && <Heading color='blue.900' fontFamily='logotype'>Babble</Heading>
+        }
+        {
+          mode === 'signIn' ?
+          <Heading fontWeight='bold' color='blue.900'>Sign In</Heading>
+          :
+          <Heading fontWeight='bold' color='blue.900'>Sign Up</Heading>
+        }
+        {
+          mode === 'signIn' ?
+          <SignIn />
+          :
+          <SignUp />
+        }
+        {
+          mode === 'signIn' ?
+          <Flex gap='2' direction='column'>
+            <Button variant='link' colorScheme='blue' onClick={() => setMode("signUp")}>Don't have an account yet?</Button>
+            <Button variant='link' colorScheme='blue'>Forgot password?</Button>
+          </Flex>
+          :
+          <Flex gap='2' direction='column'>
+            <Button variant='link' colorScheme='blue' onClick={() => setMode("signIn")}>Already have an account?</Button>
+          </Flex>
+        }
       </Flex>
-    </Container>
+      {
+        lgBreakpoint && <FullLogoIcon boxSize='sm'/>
+      }
+    </Grid>
   );
 }
