@@ -4,15 +4,14 @@ import { Input } from "@chakra-ui/input";
 import { Flex } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { signInWithEmailAndPassword } from "@firebase/auth";
+import { doc, getDoc } from "@firebase/firestore";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { auth } from "../../../firebase/config";
-import { currentUser, signInFormData } from "../../../store";
+import { auth, db } from "../../../firebase/config";
+import { signInFormData } from "../../../store";
 
 export const SignIn = () => {
   const [loading, setLoading] = useState(false);
-
-  const [user, setUser] = useAtom(currentUser);
   const toast = useToast();
 
   const [signInForm, setSignInForm] = useAtom(signInFormData);
@@ -76,23 +75,27 @@ export const SignIn = () => {
   }
 
   const handleSignIn = async () => {
-    setLoading(true);
     validateAllFields();
     if (!isEmailError.error && !isPasswordError.error) {
+      setLoading(true);
       try {
         await signInWithEmailAndPassword(auth, signInForm.email, signInForm.password);
+        if (auth.currentUser) {
+          const docRef = doc(db, "users", auth.currentUser.uid);
+          const docSnap = await getDoc(docRef);
 
-        await setUser(auth.currentUser);
-
-        toast({
-          title: `Hello, ${user?.email}`,
-          description: "You've successfully signed in to your account.",
-          variant: 'left-accent',
-          isClosable: true,
-          status: 'success',
-          duration: 5000,
-          position: 'top',
-        });
+          if (docSnap.exists()) {
+            toast({
+              title: `Hello, ${docSnap.data().name}`,
+              description: "You've successfully signed in to your account.",
+              variant: 'left-accent',
+              isClosable: true,
+              status: 'success',
+              duration: 5000,
+              position: 'top',
+            });
+          }
+        }
       } catch (err: any) {
         if (err.code === 'auth/invalid-email') {
           setIsEmailError({
@@ -115,10 +118,11 @@ export const SignIn = () => {
             description: "An unknown error occured in the process of signing in to your account.",
             variant: 'left-accent',
             isClosable: true,
-            status: 'success',
+            status: 'error',
             duration: 5000,
             position: 'top',
           });
+          console.error("Error while signing in: ", err);
         }
       }
     }

@@ -51,7 +51,7 @@ export const Auth = () => {
           : mode === 'signUp' ?
           <Heading fontWeight='bold' color='blue.900'>Sign Up</Heading>
           :
-          <Heading fontWeight='bold' color='blue.900'>Password reset</Heading>
+          <Heading fontWeight='bold' color='blue.900'>Password reset email</Heading>
         }
         {
           mode === 'signIn' ?

@@ -5,6 +5,7 @@ import theme from "./theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from './pages/layout/index';
 import { Auth } from './pages/auth/index';
+import { ResetPassword } from './pages/resetPassword/index'
 import '@fontsource/pacifico'
 import '@fontsource/poppins'
 
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
           </Route>
           <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

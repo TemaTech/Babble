@@ -8,13 +8,12 @@ import { doc, setDoc } from "@firebase/firestore";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { auth, db } from "../../../firebase/config";
-import { currentUser, signUpFormData } from "../../../store";
+import { signUpFormData } from "../../../store";
 
 export const SignUp = () => {
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
-  const [user, setUser] = useAtom(currentUser);
 
   const [signUpForm, setSignUpForm] = useAtom(signUpFormData);
   const [isNameError, setIsNameError] = useState(false);
@@ -131,20 +130,18 @@ export const SignUp = () => {
   }
   
   const handleSignUp = async () => {
-    setLoading(true);
     validateAllFields();
     if (!isNameError && !isEmailError.error && !isPasswordError.error && !isConfirmPasswordError.error) {
       try {
+        setLoading(true);
         await createUserWithEmailAndPassword(auth, signUpForm.email, signUpForm.password);
 
-        setUser(auth.currentUser)
-
-        if (user) {
-          await setDoc(doc(db, "users", user.uid), {
+        if (auth.currentUser) {
+          await setDoc(doc(db, "users", auth.currentUser.uid), {
             name: signUpForm.name,
             email: signUpForm.email,
             groups: [],
-            uid: user.uid,
+            uid: auth.currentUser.uid,
             avatar: null,
           });
         }

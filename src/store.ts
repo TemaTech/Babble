@@ -1,4 +1,3 @@
-import { User } from '@firebase/auth';
 import { atom } from 'jotai'
 
 interface SignUpFormData {
@@ -42,5 +41,3 @@ export const newPasswordFormData = atom<NewPasswordFormData>({
   password: '',
   confirmPassword: '',
 });
-
-export const currentUser = atom<User | null>(null);
