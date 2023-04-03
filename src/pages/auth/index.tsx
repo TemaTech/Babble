@@ -7,10 +7,10 @@ import { Button } from "@chakra-ui/button";
 import { useMediaQuery } from "@chakra-ui/media-query";
 import { RequestPasswordReset } from './components/RequestPasswordReset'
 import { useAtom } from "jotai";
-import { requestPasswordResetFormData, signInFormData, signUpFormData } from "../../store";
+import { authPageMode, requestPasswordResetFormData, signInFormData, signUpFormData } from "../../store";
 
 export const Auth = () => {
-  const [mode, setMode] = useState<"signIn" | "signUp" | "requestPasswordReset">("signIn");
+  const [mode, setMode] = useAtom(authPageMode);
   const [lgBreakpoint] = useMediaQuery("(min-width: 62em)");
 
   const [signInForm, setSignInForm] = useAtom(signInFormData);

@@ -1,5 +1,7 @@
 import { atom } from 'jotai'
 
+export const authPageMode = atom<"signIn" | "signUp" | "requestPasswordReset">("signIn");
+
 interface SignUpFormData {
   name: string;
   email: string;
@@ -40,4 +42,16 @@ interface NewPasswordFormData {
 export const newPasswordFormData = atom<NewPasswordFormData>({
   password: '',
   confirmPassword: '',
+});
+
+interface ProfileData {
+  name: string | undefined;
+  avatar: File | undefined;
+  avatarPreview: string | undefined;
+}
+
+export const profileData = atom<ProfileData>({
+  name: undefined,
+  avatar: undefined,
+  avatarPreview: undefined,
 });

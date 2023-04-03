@@ -7,12 +7,14 @@ import { signInWithEmailAndPassword } from "@firebase/auth";
 import { doc, getDoc } from "@firebase/firestore";
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { auth, db } from "../../../firebase/config";
 import { signInFormData } from "../../../store";
 
 export const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const [signInForm, setSignInForm] = useAtom(signInFormData);
   const [isEmailError, setIsEmailError] = useState({
@@ -94,6 +96,7 @@ export const SignIn = () => {
               duration: 5000,
               position: 'top',
             });
+            navigate("/");
           }
         }
       } catch (err: any) {
