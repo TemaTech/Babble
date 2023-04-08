@@ -1,7 +1,9 @@
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { IconButton } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { FaUserFriends, FaUsers } from 'react-icons/fa'
+import React from 'react'
+import { NewPersonalChatModal } from './newChat/personalChat/NewPersonalChatModal'
+import { NewGroupChatModal } from "./newChat/groupChat/NewGroupChatModal";
 
 export const NewChatMenu = () => {
   return (
@@ -13,8 +15,8 @@ export const NewChatMenu = () => {
         icon={<AddIcon />}
       />
       <MenuList>
-        <MenuItem icon={<FaUserFriends />}>New Private Chat</MenuItem>
-        <MenuItem icon={<FaUsers />}>New Group Chat</MenuItem>
+        <NewPersonalChatModal />
+        <NewGroupChatModal />
       </MenuList>
     </Menu>
   );

@@ -3,7 +3,6 @@ import { useMediaQuery } from "@chakra-ui/media-query";
 import { Navbar } from './components/sidebar/navbar/Navbar'
 import { ChatList } from './components/sidebar/chats/ChatList'
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
 import { auth } from "../../firebase/config";
 import { onAuthStateChanged } from "@firebase/auth";
 

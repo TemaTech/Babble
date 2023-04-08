@@ -7,12 +7,13 @@ import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { doc, setDoc } from "@firebase/firestore";
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { auth, db } from "../../../firebase/config";
 import { signUpFormData } from "../../../store";
 
 export const SignUp = () => {
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const toast = useToast();
 
   const [signUpForm, setSignUpForm] = useAtom(signUpFormData);
@@ -157,6 +158,7 @@ export const SignUp = () => {
           duration: 5000,
           position: 'top',
         });
+        navigate("/");
       } catch (err: any) {
         if (err.code === 'auth/email-already-in-use') {
           setIsEmailError({

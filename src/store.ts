@@ -45,13 +45,37 @@ export const newPasswordFormData = atom<NewPasswordFormData>({
 });
 
 interface ProfileData {
-  name: string | undefined;
-  avatar: File | undefined;
-  avatarPreview: string | undefined;
+  name: string | null;
+  avatar: File | null;
+  avatarPreview: string | null;
 }
 
 export const profileData = atom<ProfileData>({
-  name: undefined,
-  avatar: undefined,
-  avatarPreview: undefined,
+  name: null,
+  avatar: null,
+  avatarPreview: null,
+});
+
+interface NewChat {
+  type: "personal" | "group" | null;
+  members: string[] | null;
+  createdBy: string | null;
+  createdAt: string | null;
+  title: string | null;
+  lastMessageText: string | null;
+  lastMessageSentAt: string | null;
+  avatar: File | null;
+  avatarPreview: string | null;
+}
+
+export const newChat = atom<NewChat>({
+  type: null,
+  members: null,
+  createdBy: null,
+  createdAt: null,
+  title: null,
+  lastMessageText: null,
+  lastMessageSentAt: null,
+  avatar: null,
+  avatarPreview: null,
 });

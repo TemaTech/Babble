@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Layout } from './pages/layout/index';
-import { Auth } from './pages/auth/index';
-import { ResetPassword } from './pages/resetPassword/index'
+import { Layout } from './pages/layout/Layout';
+import { Auth } from './pages/auth/Auth';
+import { ResetPassword } from './pages/resetPassword/ResetPassword'
 import '@fontsource/pacifico'
 import '@fontsource/poppins'
 

@@ -29,7 +29,12 @@ export const ProfileDataForm = () => {
     <Flex direction='column' gap='4'>
       <FormControl isRequired isInvalid={profile.name === ''}>
         <FormLabel aria-required>Your name:</FormLabel>
-        <Input maxLength={40} value={profile.name} onChange={(e) => setProfile((prev) => ({ ...prev, name: e.target.value }))} />
+        {
+          profile.name ? 
+          <Input maxLength={40} value={profile.name} onChange={(e) => setProfile((prev) => ({ ...prev, name: e.target.value }))} />
+          :
+          <Input maxLength={40} onChange={(e) => setProfile((prev) => ({ ...prev, name: e.target.value }))} />
+        }
         <FormErrorMessage>This field is required.</FormErrorMessage>
       </FormControl>
       <FormControl>

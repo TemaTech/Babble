@@ -24,7 +24,12 @@ export const ProfilePreview = () => {
 
   return (
     <Flex direction='column' gap='4' align='center' justify='center'>
-      <Avatar src={profile.avatarPreview} size='lg' boxShadow='xl' />
+      {
+        profile.avatarPreview ?
+        <Avatar src={profile.avatarPreview} size='lg' boxShadow='xl' />
+        :
+        <Avatar size='lg' boxShadow='xl' />
+      }
       <Heading color='blue.900' fontSize='lg'>{ profile.name }</Heading>
     </Flex>
   );
