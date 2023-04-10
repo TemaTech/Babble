@@ -57,7 +57,7 @@ export const PersonalChatPreviewMembers = () => {
         <Avatar src={user1Data.avatar ? user1Data.avatar : undefined} boxShadow='xl' size='lg'>
           <AvatarBadge boxSize='1em' bg={user1Data.isOnline ? 'green.400' : 'gray.300'} />
         </Avatar>
-        <Text textAlign='center' fontWeight='bold' color='gray.600'>{ user1Data.name }</Text>
+        <Text textAlign='center' fontWeight='bold' color='gray.700'>{ user1Data.name }</Text>
         <Text textAlign='center' color='gray.400'>(You)</Text>
       </Flex>
       <Icon as={BsChatDots} fontSize='xl' color='gray.400' />
@@ -65,7 +65,7 @@ export const PersonalChatPreviewMembers = () => {
         <Avatar src={user2Data.avatar ? user2Data.avatar : undefined} boxShadow='xl' size='lg'>
           <AvatarBadge boxSize='1em' bg={user2Data.isOnline ? 'green.400' : 'gray.300'} />
         </Avatar>
-        <Text textAlign='center' fontWeight='bold' color='gray.600'>{ user2Data.name }</Text>
+        <Text textAlign='center' fontWeight='bold' color='gray.700'>{ user2Data.name }</Text>
         <Text textAlign='center' color='gray.400'>(Your partner)</Text>
       </Flex>
     </Grid>

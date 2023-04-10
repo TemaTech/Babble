@@ -59,7 +59,7 @@ export const NewPersonalChatModal = () => {
         const chatDocRef = await addDoc(collection(db, "chats"), {
           ...newChatData,
           createdAt: new Date().toISOString(),
-          createdBy: auth.currentUser.uid
+          createdBy: auth.currentUser.uid,
         });
         await updateDoc(chatDocRef, { id: chatDocRef.id });
 
@@ -78,7 +78,7 @@ export const NewPersonalChatModal = () => {
         }
         closeModal();
       } catch(err) {
-        console.error(err);
+        console.error("Error in 'handleStartChatting', NewPersonalChatModal.tsx: ", err);
       }
       setLoading(false);
     }

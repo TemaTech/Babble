@@ -78,12 +78,12 @@ export const newChat = atom<NewChat>({
   avatar: null,
 });
 
-interface NewGroupChatPreviewData {
+interface NewGroupChatAvatars {
   avatar: File | null;
   avatarPreview: string | null;
 }
 
-export const newGroupChatPreviewData = atom<NewGroupChatPreviewData>({
+export const newGroupChatAvatars = atom<NewGroupChatAvatars>({
   avatar: null,
   avatarPreview: null,
 });

@@ -33,7 +33,7 @@ export const PersonalChatUsersListItem = ({ user, setIsFocusedOnInput, setIsSugg
   return (
     <Flex
       direction='row'
-      gap='2'
+      gap='4'
       p='2'
       bg='gray.100'
       borderRadius='5'
@@ -51,8 +51,8 @@ export const PersonalChatUsersListItem = ({ user, setIsFocusedOnInput, setIsSugg
         <AvatarBadge boxSize='1em' bg={user.isOnline ? 'green.400' : 'gray.300'} />
       </Avatar>
       <Flex direction='column'>
-        <Text>{ user.name }</Text>
-        <Text color='gray.500'>{ user.email }</Text>
+        <Text fontWeight='bold' color='gray.700'>{ user.name }</Text>
+        <Text color='gray.400'>{ user.email }</Text>
       </Flex>
     </Flex>
   );
