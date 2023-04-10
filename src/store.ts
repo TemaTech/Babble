@@ -64,8 +64,7 @@ interface NewChat {
   title: string | null;
   lastMessageText: string | null;
   lastMessageSentAt: string | null;
-  avatar: File | null;
-  avatarPreview: string | null;
+  avatar: string | null;
 }
 
 export const newChat = atom<NewChat>({
@@ -76,6 +75,15 @@ export const newChat = atom<NewChat>({
   title: null,
   lastMessageText: null,
   lastMessageSentAt: null,
+  avatar: null,
+});
+
+interface NewGroupChatPreviewData {
+  avatar: File | null;
+  avatarPreview: string | null;
+}
+
+export const newGroupChatPreviewData = atom<NewGroupChatPreviewData>({
   avatar: null,
   avatarPreview: null,
 });

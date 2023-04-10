@@ -8,16 +8,21 @@ import {
   ModalCloseButton,
   Button,
   Flex,
+  ButtonSpinner,
+  useToast,
 } from '@chakra-ui/react'
 import { useDisclosure } from '@chakra-ui/react-use-disclosure'
 import { MenuItem } from "@chakra-ui/menu";
 import { FiUser } from 'react-icons/fi'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChatIcon } from '@chakra-ui/icons';
 import { PersonalChatInfoPopover } from './PersonalChatInfoPopover';
 import { useAtom } from 'jotai'
 import { newChat } from '../../../../../../../store'
 import { SearchUsers } from '../SearchUsers';
+import { PersonalChatPreviewMembers } from './PersonalChatPreviewMembers';
+import { addDoc, collection, doc, getDoc, updateDoc } from '@firebase/firestore';
+import { auth, db } from '../../../../../../../firebase/config';
 
 export const NewPersonalChatModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +34,7 @@ export const NewPersonalChatModal = () => {
       }));
     }
   }, [isOpen]);
+  const [loading, setLoading] = useState(false);
 
   const closeModal = () => {
     onClose();
@@ -41,8 +47,41 @@ export const NewPersonalChatModal = () => {
       lastMessageText: null,
       lastMessageSentAt: null,
       avatar: null,
-      avatarPreview: null,
     }));
+  }
+
+  const toast = useToast();
+
+  const handleStartChatting = async () => {
+    if (newChatData.members && newChatData.members[1] && auth.currentUser) {
+      setLoading(true);
+      try {
+        const chatDocRef = await addDoc(collection(db, "chats"), {
+          ...newChatData,
+          createdAt: new Date().toISOString(),
+          createdBy: auth.currentUser.uid
+        });
+        await updateDoc(chatDocRef, { id: chatDocRef.id });
+
+        const userDocRef = doc(db, "users", newChatData.members[1]);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+          toast({
+            title: "New chat has been created",
+            description: `Your chat with ${userDocSnap.data().name} has been successfully created.`,
+            variant: 'left-accent',
+            isClosable: true,
+            status: 'success',
+            duration: 5000,
+            position: 'top',
+          });
+        }
+        closeModal();
+      } catch(err) {
+        console.error(err);
+      }
+      setLoading(false);
+    }
   }
 
   return (
@@ -61,11 +100,20 @@ export const NewPersonalChatModal = () => {
           <ModalCloseButton />
           <ModalBody display='flex' flexDirection='column' gap='4'>
             <SearchUsers />
+            {
+              newChatData.members && newChatData.members[0] && newChatData.members[1] &&
+              <PersonalChatPreviewMembers />
+            }
           </ModalBody>
 
           <ModalFooter>
             <Button mr='3' onClick={closeModal}>Close</Button>
-            <Button colorScheme='blue' leftIcon={<ChatIcon />}>Start chatting</Button>
+            {
+              loading ?
+              <Button colorScheme='blue' isDisabled><ButtonSpinner /></Button>
+              :
+              <Button colorScheme='blue' leftIcon={<ChatIcon />} onClick={handleStartChatting}>Start chatting</Button>
+            }
           </ModalFooter>
         </ModalContent>
       </Modal>

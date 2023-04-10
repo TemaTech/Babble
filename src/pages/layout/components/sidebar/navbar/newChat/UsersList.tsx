@@ -16,9 +16,10 @@ interface User {
 interface Props {
   usersList: User[];
   setIsSuggestionsListHovered: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsFocusedOnInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const UsersList = ({ usersList, setIsSuggestionsListHovered }: Props) => {
+export const UsersList = ({ usersList, setIsSuggestionsListHovered, setIsFocusedOnInput }: Props) => {
   const newChatData = useAtomValue(newChat);
 
   return (
@@ -38,11 +39,11 @@ export const UsersList = ({ usersList, setIsSuggestionsListHovered }: Props) => 
       {
         newChatData.type === "personal" ?
         usersList.map((user) => (
-          <PersonalChatUsersListItem user={user} />
+          <PersonalChatUsersListItem user={user} setIsSuggestionsListHovered={setIsSuggestionsListHovered} setIsFocusedOnInput={setIsFocusedOnInput} />
         ))
         : newChatData.type === 'group' &&
         usersList.map((user) => (
-          <GroupChatUsersListItem user={user} />
+          <GroupChatUsersListItem user={user} setIsSuggestionsListHovered={setIsSuggestionsListHovered} setIsFocusedOnInput={setIsFocusedOnInput} />
         ))
       }
     </Flex>

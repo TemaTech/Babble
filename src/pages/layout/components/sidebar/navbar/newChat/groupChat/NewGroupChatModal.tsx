@@ -41,7 +41,6 @@ export const NewGroupChatModal = () => {
       lastMessageText: null,
       lastMessageSentAt: null,
       avatar: null,
-      avatarPreview: null,
     }));
   }
   

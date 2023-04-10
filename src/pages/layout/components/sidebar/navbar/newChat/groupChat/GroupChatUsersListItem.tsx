@@ -12,9 +12,11 @@ interface User {
 
 interface Props {
   user: User;
+  setIsFocusedOnInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSuggestionsListHovered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const GroupChatUsersListItem = ({ user }: Props) => {
+export const GroupChatUsersListItem = ({ user, setIsFocusedOnInput, setIsSuggestionsListHovered }: Props) => {
   return (
     <Flex direction='row' gap='2' p='2' bg='gray.100' borderRadius='5' _hover={{ background: 'gray.200' }} cursor='pointer'>
       <Avatar name={user.name} boxShadow='md' src={user.avatar}>

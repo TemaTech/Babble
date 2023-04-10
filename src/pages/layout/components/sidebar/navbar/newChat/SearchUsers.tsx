@@ -4,10 +4,12 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../../../../../../firebase/config';
+import { auth, db } from '../../../../../../firebase/config';
 import Fuse from 'fuse.js'
 import { Flex } from "@chakra-ui/layout";
 import { UsersList } from "./UsersList";
+import { useAtomValue } from "jotai";
+import { newChat } from "../../../../../../store";
 
 interface User {
   name: string;
@@ -23,6 +25,7 @@ export const SearchUsers = () => {
     error: false,
     message: '',
   });
+  const newChatDataValue = useAtomValue(newChat);
   
   const [usersList, setUsersList] = useState<User[] | null>(null);
   useEffect(() => {
@@ -30,13 +33,15 @@ export const SearchUsers = () => {
       const collectionSnapshot = await getDocs(collection(db, "users"));
       const list: User[] = [];
       collectionSnapshot.forEach((doc) => {
-        list.push({
-          name: doc.data().name,
-          email: doc.data().email,
-          avatar: doc.data().avatar,
-          uid: doc.data().uid,
-          isOnline: doc.data().isOnline,
-        });
+        if (auth.currentUser && doc.data().uid !== auth.currentUser.uid) {
+          list.push({
+            name: doc.data().name,
+            email: doc.data().email,
+            avatar: doc.data().avatar,
+            uid: doc.data().uid,
+            isOnline: doc.data().isOnline,
+          });
+        }
       });
       setUsersList(list);
     }
@@ -65,6 +70,16 @@ export const SearchUsers = () => {
         error: true,
         message: "This field is required."
       });
+    } else if (!newChatDataValue.members || !newChatDataValue.members[1]) {
+      setInputError({
+        error: true,
+        message: "You didn't choose your chatting partner."
+      });
+    } else if (newChatDataValue.members && newChatDataValue.members[1] && event.target.value === '') {
+      setInputError({
+        error: false,
+        message: '',
+      });
     } else {
       setInputError({
         error: false,
@@ -72,6 +87,15 @@ export const SearchUsers = () => {
       });
     }
   }
+
+  useEffect(() => {
+    if ((newChatDataValue.members && newChatDataValue.members[1]) || (newChatDataValue.members && newChatDataValue.members[1] && input === '')) {
+      setInputError({
+        error: false,
+        message: '',
+      });
+    }
+  }, [newChatDataValue, input]);
 
   const [isFocusedOnInput, setIsFocusedOnInput] = useState(false);
   const [isSuggestionsListHovered, setIsSuggestionsListHovered] = useState(false);
@@ -82,6 +106,10 @@ export const SearchUsers = () => {
   }
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isFocusedOnInput && !isSuggestionsListHovered && inputRef.current) inputRef.current.blur();
+  }, [isFocusedOnInput, isSuggestionsListHovered]);
 
   return (
     <Flex direction='column' gap='2'>
@@ -102,7 +130,7 @@ export const SearchUsers = () => {
       <Flex position='relative'>
         {
           filteredUsersList && isFocusedOnInput && (input ? true : false) &&
-          <UsersList setIsSuggestionsListHovered={setIsSuggestionsListHovered} usersList={filteredUsersList} />
+          <UsersList setIsFocusedOnInput={setIsFocusedOnInput} setIsSuggestionsListHovered={setIsSuggestionsListHovered} usersList={filteredUsersList} />
         }
       </Flex>
     </Flex>
