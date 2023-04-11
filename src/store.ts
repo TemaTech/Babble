@@ -56,14 +56,19 @@ export const profileData = atom<ProfileData>({
   avatarPreview: null,
 });
 
+interface ChatLastMessage {
+  text: string | null;
+  sentBy: string | null;
+  sentAt: string | null;
+}
+
 interface NewChat {
   type: "personal" | "group" | null;
   members: string[] | null;
   createdBy: string | null;
   createdAt: string | null;
   title: string | null;
-  lastMessageText: string | null;
-  lastMessageSentAt: string | null;
+  lastMessage: ChatLastMessage;
   avatar: string | null;
 }
 
@@ -73,8 +78,11 @@ export const newChat = atom<NewChat>({
   createdBy: null,
   createdAt: null,
   title: null,
-  lastMessageText: null,
-  lastMessageSentAt: null,
+  lastMessage: {
+    text: null,
+    sentAt: null,
+    sentBy: null,
+  },
   avatar: null,
 });
 

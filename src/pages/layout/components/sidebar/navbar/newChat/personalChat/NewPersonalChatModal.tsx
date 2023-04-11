@@ -44,8 +44,11 @@ export const NewPersonalChatModal = () => {
       createdBy: null,
       createdAt: null,
       title: null,
-      lastMessageText: null,
-      lastMessageSentAt: null,
+      lastMessage: {
+        text: null,
+        sentAt: null,
+        sentBy: null,
+      },
       avatar: null,
     }));
   }
