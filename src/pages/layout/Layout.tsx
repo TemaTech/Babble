@@ -17,7 +17,7 @@ export const Layout = () => {
 
   return (
     <Grid templateColumns={{ base: '1fr', lg: 'auto 1fr' }} templateRows={{ base: 'auto 1fr', lg: '1fr' }}>
-      <Flex direction='column' h='100vh' zIndex='2' borderRight='1px solid' borderRightColor='gray.300'>
+      <Flex direction='column' h='100vh' zIndex='2' borderRight='1px solid' borderRightColor='gray.300' w={{ base: '100vw', lg: '40vw', xl: '30vw' }}>
         <Navbar />
         <ChatList />
       </Flex>

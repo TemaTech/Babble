@@ -1,18 +1,44 @@
 import { Avatar } from "@chakra-ui/avatar";
-import { Flex, Heading, Spacer, Text } from "@chakra-ui/layout";
+import { Divider, Flex, Text } from "@chakra-ui/layout";
 
-export const ChatItem = () => {
+
+interface ChatLastMessage {
+  text: string | null;
+  sentBy: string | null;
+  sentAt: string | null;
+}
+
+interface Props {
+  title: string | null;
+  lastMessage: ChatLastMessage;
+  avatar: string | null;
+  id: string;
+  type: "personal" | "group" | null;
+}
+
+export const ChatItem = ({ id, title, avatar, lastMessage, type }: Props) => {
   return (
-    <Flex w='100%' gap='4' bg='gray.100' p='4' align='center' borderRadius='5' boxShadow='sm' sx={{ '_hover': { backgroundColor: 'gray.200', cursor: 'pointer' }, 'transition': 'all 150ms ease-in-out' }}>
-      <Avatar boxShadow='md' />
-      <Flex direction='column' w='100%'>
-        <Heading fontSize='sm'>Hello world</Heading>
-        <Flex align='flex-start' w='100%' gap='2'>
-          <Text color='gray.600' noOfLines={[1, 2]}>Hello world, this is me Elon Musk</Text>
-          <Spacer />
-          <Text color='gray.600'>Fri</Text>
+    <Flex gap='3' p='3' cursor='pointer' borderRadius='xl' align='center' _hover={{ background: 'gray.100' }} >
+      <Avatar src={avatar ? avatar : undefined} size='md' boxShadow='xl' />
+      <Flex direction='column' gap='1' w='100%'>
+        <Flex justify='space-between' gap='3'>
+          <Text color='gray.700' fontWeight='bold'>{ title }</Text>
+          {
+            lastMessage.sentAt &&
+            <Text textAlign='center' color='gray.400'>{ lastMessage.sentAt }</Text>
+          }
         </Flex>
+        {
+          lastMessage.sentBy &&
+          <Flex direction='column'>
+            {
+              type === 'group' &&
+              <Text fontSize='sm' color='gray.600' fontWeight='bold'>{ lastMessage.sentBy }</Text>
+            }
+            <Text fontSize='sm' noOfLines={[1, 2]} maxW='75%' color='gray.500'>{ lastMessage.text }</Text>
+          </Flex>
+        }
       </Flex>
     </Flex>
-  );
+  )
 }

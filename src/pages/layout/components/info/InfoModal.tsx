@@ -32,7 +32,7 @@ export const InfoModal = () => {
                 experience building this kind of application where the user could register or log in, 
                 set up his profile name and picture, create a private chat, create a group chat and 
                 send a message. So, as this project is considered more as a portfolio project, here 
-                are the technologies I've used in this app: React, TypeScript, ChakraUI, React-Router, Jotai and Firebase.
+                are the technologies I've used in this app: React, TypeScript, Firebase, ChakraUI, React-Router, Jotai and Fuse.js.
             </Text>
           </ModalBody>
           <ModalFooter>

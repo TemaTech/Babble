@@ -95,3 +95,5 @@ export const newGroupChatAvatars = atom<NewGroupChatAvatars>({
   avatar: null,
   avatarPreview: null,
 });
+
+export const chatListSearchQuery = atom<string | null>(null);

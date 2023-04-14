@@ -1,5 +1,6 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Flex, Heading } from "@chakra-ui/layout";
+import { Spinner } from "@chakra-ui/spinner";
 import { doc, getDoc } from "@firebase/firestore";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -8,6 +9,7 @@ import { profileData } from "../../../../store";
 
 export const ProfilePreview = () => {
   const [profile, setProfile] = useAtom(profileData);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -18,13 +20,19 @@ export const ProfilePreview = () => {
           setProfile((prev) => ({ ...prev, name: docSnap.data().name, avatar: docSnap.data().avatar, avatarPreview: docSnap.data().avatar }));
         }
       }
+      setIsLoading(false);
     }
     getData();
   }, []);
 
   return (
     <Flex direction='column' gap='4' align='center' justify='center'>
-      <Avatar src={profile.avatarPreview ? profile.avatarPreview : undefined} size='lg' boxShadow='xl' />
+      {
+        isLoading ?
+        <Spinner color='gray.400' />
+        :
+        <Avatar src={profile.avatarPreview ? profile.avatarPreview : undefined} size='lg' boxShadow='xl' />
+      }
       <Heading color='gray.800' fontSize='lg'>{ profile.name }</Heading>
     </Flex>
   );
