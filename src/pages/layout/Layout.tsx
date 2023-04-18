@@ -2,7 +2,7 @@ import { Flex, Grid } from "@chakra-ui/layout";
 import { useMediaQuery } from "@chakra-ui/media-query";
 import { Navbar } from './components/sidebar/navbar/Navbar'
 import { ChatList } from './components/sidebar/chats/ChatList'
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { auth } from "../../firebase/config";
 import { onAuthStateChanged } from "@firebase/auth";
 
@@ -22,7 +22,7 @@ export const Layout = () => {
         <ChatList />
       </Flex>
       {
-        lgBreakpoint && <Flex bg='gray.100'></Flex>
+        lgBreakpoint && <Outlet />
       }
     </Grid>
   );

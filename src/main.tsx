@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from './pages/layout/Layout';
 import { Auth } from './pages/auth/Auth';
 import { ResetPassword } from './pages/resetPassword/ResetPassword'
+import { Chat } from './pages/chat/Chat';
 import '@fontsource/pacifico'
 import '@fontsource/poppins'
 
@@ -15,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-
+            <Route path="/chat/:chatId" element={<Chat />} />
           </Route>
           <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />

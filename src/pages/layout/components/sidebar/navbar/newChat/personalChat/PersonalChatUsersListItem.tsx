@@ -48,7 +48,7 @@ export const PersonalChatUsersListItem = ({ user, setIsFocusedOnInput, setIsSugg
       }}
     >
       <Avatar name={user.name} boxShadow='md' src={user.avatar}>
-        <AvatarBadge boxSize='1em' bg={user.isOnline ? 'green.400' : 'gray.300'} />
+      <AvatarBadge bg={user.isOnline ? 'green.300' : 'gray.300'} boxSize='1em' />
       </Avatar>
       <Flex direction='column'>
         <Text fontWeight='bold' color='gray.700'>{ user.name }</Text>

@@ -7,8 +7,8 @@ import { formatDistanceToNow } from 'date-fns';
 import { Spinner } from "@chakra-ui/spinner";
 import { ChatItem } from './chatItem/ChatItem'
 import Fuse from 'fuse.js'
-import { useAtomValue } from "jotai";
-import { chatListSearchQuery } from '../../../../../store';
+import { useAtom, useAtomValue } from "jotai";
+import { chatListSearchQuery, newChat, userChats } from '../../../../../store';
 
 interface ChatLastMessage {
   text: string | null;
@@ -25,10 +25,11 @@ interface Chat {
   lastMessage: ChatLastMessage;
   avatar: string | null;
   id: string;
+  isPartnerOnline: boolean | null;
 }
 
 export const ChatList = () => {
-  const [chats, setChats] = useState<Chat[]>();
+  const [chats, setChats] = useAtom(userChats);
   const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
   const [isLoading, setIsLoading] = useState(true);
   const searchQuery = useAtomValue(chatListSearchQuery);
@@ -139,11 +140,11 @@ export const ChatList = () => {
         <NoChats />
         :
         filteredChatsList && searchQuery ? filteredChatsList.map((chat) => (
-          <ChatItem type={chat.type} id={chat.id} title={chat.title} avatar={chat.avatar} lastMessage={chat.lastMessage} />
+          <ChatItem key={chat.id} type={chat.type} isOnline={chat.isPartnerOnline} id={chat.id} title={chat.title} avatar={chat.avatar} lastMessage={chat.lastMessage} />
         ))
         :
         chats && chats.map((chat) => (
-          <ChatItem type={chat.type} id={chat.id} title={chat.title} avatar={chat.avatar} lastMessage={chat.lastMessage} />
+          <ChatItem key={chat.id} type={chat.type} isOnline={chat.isPartnerOnline} id={chat.id} title={chat.title} avatar={chat.avatar} lastMessage={chat.lastMessage} />
         ))
       }
     </Flex>

@@ -97,3 +97,23 @@ export const newGroupChatAvatars = atom<NewGroupChatAvatars>({
 });
 
 export const chatListSearchQuery = atom<string | null>(null);
+
+interface ChatLastMessage {
+  text: string | null;
+  sentBy: string | null;
+  sentAt: string | null;
+}
+
+interface Chat {
+  type: "personal" | "group" | null;
+  members: string[] | null;
+  createdBy: string | null;
+  createdAt: string | null;
+  title: string | null;
+  lastMessage: ChatLastMessage;
+  avatar: string | null;
+  id: string;
+  isPartnerOnline: boolean | null;
+}
+
+export const userChats = atom<Chat[] | null>(null);
