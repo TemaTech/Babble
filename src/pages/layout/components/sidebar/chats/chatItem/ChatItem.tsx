@@ -139,7 +139,7 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Pro
             <Text color={isSelected ? 'white' : 'gray.700'} fontWeight='bold'>{ title }</Text>
             {
               lastMessage.sentAt &&
-              <Text textAlign='center' color={isSelected ? 'white' : 'gray.400'}>{ lastMessage.sentAt }</Text>
+              <Text fontSize='xs' color={isSelected ? 'white' : 'gray.400'}>{ lastMessage.sentAt }</Text>
             }
           </Flex>
           {
