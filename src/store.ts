@@ -45,75 +45,69 @@ export const newPasswordFormData = atom<NewPasswordFormData>({
 });
 
 interface ProfileData {
-  name: string | null;
+  name: string;
   avatar: File | null;
-  avatarPreview: string | null;
+  avatarPreview: string;
 }
 
 export const profileData = atom<ProfileData>({
-  name: null,
+  name: "",
   avatar: null,
-  avatarPreview: null,
+  avatarPreview: "",
 });
 
 interface ChatLastMessage {
-  text: string | null;
-  sentBy: string | null;
-  sentAt: string | null;
+  text: string;
+  sentBy: string;
+  sentAt: string;
 }
 
 interface NewChat {
-  type: "personal" | "group" | null;
-  members: string[] | null;
-  createdBy: string | null;
-  createdAt: string | null;
-  title: string | null;
+  type: "personal" | "group";
+  members: string[];
+  createdBy: string;
+  createdAt: string;
+  title: string;
   lastMessage: ChatLastMessage;
-  avatar: string | null;
+  avatar: string;
 }
 
 export const newChat = atom<NewChat>({
-  type: null,
-  members: null,
-  createdBy: null,
-  createdAt: null,
-  title: null,
+  type: "personal",
+  members: [],
+  createdBy: "",
+  createdAt: "",
+  title: "",
   lastMessage: {
-    text: null,
-    sentAt: null,
-    sentBy: null,
+    text: "",
+    sentAt: "",
+    sentBy: "",
   },
-  avatar: null,
+  avatar: "",
 });
 
 interface NewGroupChatAvatars {
   avatar: File | null;
-  avatarPreview: string | null;
+  avatarPreview: string;
 }
 
 export const newGroupChatAvatars = atom<NewGroupChatAvatars>({
   avatar: null,
-  avatarPreview: null,
+  avatarPreview: "",
 });
 
-export const chatListSearchQuery = atom<string | null>(null);
-
-interface ChatLastMessage {
-  text: string | null;
-  sentBy: string | null;
-  sentAt: string | null;
-}
+export const chatListSearchQuery = atom<string>("");
 
 interface Chat {
-  type: "personal" | "group" | null;
-  members: string[] | null;
-  createdBy: string | null;
-  createdAt: string | null;
-  title: string | null;
+  type: "personal" | "group";
+  members: string[];
+  createdBy: string;
+  createdAt: string;
+  title: string;
   lastMessage: ChatLastMessage;
-  avatar: string | null;
+  avatar: string;
   id: string;
-  isPartnerOnline: boolean | null;
+  isPartnerOnline: boolean;
 }
 
-export const userChats = atom<Chat[] | null>(null);
+export const userChats = atom<Chat[]>([]);

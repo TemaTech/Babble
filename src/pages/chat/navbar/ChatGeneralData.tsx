@@ -61,7 +61,7 @@ export const ChatGeneralData = () => {
 
   return (
     <Flex gap='2'>
-      <Avatar src={currentChatData?.avatar ? currentChatData.avatar : undefined}>
+      <Avatar bgGradient="linear(to-b, blue.300, blue.400)"  boxShadow='md' color='white' name={currentChatData?.title} src={currentChatData && currentChatData.avatar ? currentChatData.avatar : undefined}>
         {
           currentChatData && currentChatData.type === "personal" &&
           <AvatarBadge bg={currentChatData.isPartnerOnline ? "green.300" : "gray.300"} boxSize='1em' />
@@ -76,6 +76,10 @@ export const ChatGeneralData = () => {
           :
           currentChatData?.lastTimeSeen &&
           <Text color='gray.500' fontSize='sm'>Last time seen: { currentChatData.lastTimeSeen }</Text>
+        }
+        {
+          currentChatData?.type === "group" &&
+          <Text color='gray.500' fontSize='sm'>{currentChatData?.members.length} members</Text>
         }
       </Flex>
     </Flex>

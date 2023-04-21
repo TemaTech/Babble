@@ -56,8 +56,8 @@ export const NewGroupChatMembersPreview = () => {
     <Wrap spacing='2'>
       {
         usersList.map((user) => (
-          <WrapItem alignItems='center' display='flex' flexDirection='row' p='2' gap='4' bg='gray.100' borderRadius='5'>
-            <Avatar boxShadow='md' size='sm' src={user.avatar ? user.avatar : undefined}>
+          <WrapItem key={user.uid} alignItems='center' display='flex' flexDirection='row' p='2' gap='4' bg='gray.100' borderRadius='5'>
+            <Avatar bgGradient="linear(to-b, blue.300, blue.400)"  boxShadow='md' color='white' name={user.name ? user.name : undefined} size='sm' src={user.avatar ? user.avatar : undefined}>
               <AvatarBadge bg={user.isOnline ? 'green.400' : 'gray.300'} boxSize='1em' />
             </Avatar>
             <Text textAlign='center' fontWeight='bold' color='gray.700' fontSize='md'>{ user.name }</Text>

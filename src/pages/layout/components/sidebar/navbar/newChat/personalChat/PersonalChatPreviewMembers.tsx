@@ -54,7 +54,7 @@ export const PersonalChatPreviewMembers = () => {
   return user1Data && user2Data ? (
     <Grid templateColumns='1fr auto 1fr' placeItems='center' gap='4'>
       <Flex direction='column' gap='2' align='center' justify='center'>
-        <Avatar src={user1Data.avatar ? user1Data.avatar : undefined} boxShadow='xl' size='lg'>
+        <Avatar src={user1Data.avatar ? user1Data.avatar : undefined} boxShadow='xl' size='lg' bgGradient="linear(to-b, blue.300, blue.400)" color='white' name={user1Data.name}>
           <AvatarBadge boxSize='1em' bg={user1Data.isOnline ? 'green.400' : 'gray.300'} />
         </Avatar>
         <Text textAlign='center' fontWeight='bold' color='gray.700'>{ user1Data.name }</Text>
@@ -62,7 +62,7 @@ export const PersonalChatPreviewMembers = () => {
       </Flex>
       <Icon as={BsChatDots} fontSize='xl' color='gray.400' />
       <Flex direction='column' gap='2' align='center' justify='center'>
-        <Avatar src={user2Data.avatar ? user2Data.avatar : undefined} boxShadow='xl' size='lg'>
+        <Avatar src={user2Data.avatar ? user2Data.avatar : undefined} boxShadow='xl' size='lg' bgGradient="linear(to-b, blue.300, blue.400)" color='white' name={user2Data.name}>
           <AvatarBadge boxSize='1em' bg={user2Data.isOnline ? 'green.400' : 'gray.300'} />
         </Avatar>
         <Text textAlign='center' fontWeight='bold' color='gray.700'>{ user2Data.name }</Text>

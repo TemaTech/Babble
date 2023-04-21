@@ -22,7 +22,7 @@ import { ChatIcon } from '@chakra-ui/icons';
 import { SearchUsers } from '../SearchUsers';
 import { NewGroupChatMembersPreview } from './NewGroupChatMembersPreview';
 import { auth, db } from '../../../../../../../firebase/config';
-import { addDoc, collection, updateDoc } from '@firebase/firestore';
+import { addDoc, collection, doc, getDoc, updateDoc } from '@firebase/firestore';
 import { NewGroupChatForm } from './NewGroupChatForm';
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -42,22 +42,22 @@ export const NewGroupChatModal = () => {
   const closeModal = () => {
     onClose();
     setNewChatData(() => ({
-      type: null,
-      members: null,
-      createdBy: null,
-      createdAt: null,
-      title: null,
+      type: "personal",
+      members: [],
+      createdBy: "",
+      createdAt: "",
+      title: "",
       lastMessage: {
-        text: null,
-        sentAt: null,
-        sentBy: null,
+        text: "",
+        sentAt: "",
+        sentBy: "",
       },
-      avatar: null,
+      avatar: "",
     }));
 
     setNewGroupsChatAvatarsData(() => ({
       avatar: null,
-      avatarPreview: null,
+      avatarPreview: "",
     }));
   }
 
@@ -74,6 +74,19 @@ export const NewGroupChatModal = () => {
           createdBy: auth.currentUser.uid,
         });
         await updateDoc(chatDocRef, { id: chatDocRef.id });
+
+        for (const memberIndex in newChatData.members) {
+          const memberDocRef = doc(db, "users", newChatData.members[memberIndex]);
+          const memberDocSnap = await getDoc(memberDocRef);
+          if (memberDocSnap.exists()) {
+            const newChatsArray = memberDocSnap.data().chats || [];
+            newChatsArray.push(chatDocRef.id);
+
+            await updateDoc(memberDocRef, {
+              chats: newChatsArray,
+            });
+          }
+        }
 
         if (newGroupChatAvatarsData.avatar) {
           const storage = getStorage();

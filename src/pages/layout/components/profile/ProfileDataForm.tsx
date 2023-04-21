@@ -17,7 +17,9 @@ export const ProfileDataForm = () => {
       setProfile((prev) => ({ ...prev, avatar: file }));
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfile((prev) => ({ ...prev, avatarPreview: reader.result as string }));
+        if (reader.result) {
+          setProfile((prev) => ({ ...prev, avatarPreview: reader.result as string }));
+        }
       }
       if (file) {
         reader.readAsDataURL(file);
@@ -29,7 +31,7 @@ export const ProfileDataForm = () => {
     <Flex direction='column' gap='4'>
       <FormControl isRequired isInvalid={profile.name === ''}>
         <FormLabel aria-required>Your name:</FormLabel>
-        <Input maxLength={40} value={profile.name ? profile.name : undefined} onChange={(e) => setProfile((prev) => ({ ...prev, name: e.target.value }))} />
+        <Input maxLength={40} value={profile.name} onChange={(e) => setProfile((prev) => ({ ...prev, name: e.target.value }))} />
         <FormErrorMessage>This field is required.</FormErrorMessage>
       </FormControl>
       <FormControl>

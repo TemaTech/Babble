@@ -12,7 +12,7 @@ export const SearchBar = () => {
         pointerEvents='none'
         children={<Search2Icon color='gray.300' />}
       />
-      <Input placeholder="Search chats" value={input ? input : undefined} onChange={(e) => setInput(e.target.value)}  />
+      <Input placeholder="Search chats" value={input} onChange={(e) => setInput(e.target.value)}  />
     </InputGroup>
   );
 }

@@ -20,7 +20,7 @@ interface User {
 }
 
 export const SearchUsers = () => {
-  const [input, setInput] = useState<string | undefined>(undefined);
+  const [input, setInput] = useState<string>("");
   const [inputError, setInputError] = useState({
     error: false,
     message: '',

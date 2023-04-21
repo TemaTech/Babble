@@ -8,24 +8,25 @@ import { Spinner } from "@chakra-ui/spinner";
 import { ChatItem } from './chatItem/ChatItem'
 import Fuse from 'fuse.js'
 import { useAtom, useAtomValue } from "jotai";
-import { chatListSearchQuery, newChat, userChats } from '../../../../../store';
+import { chatListSearchQuery, userChats } from '../../../../../store';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ChatLastMessage {
-  text: string | null;
-  sentBy: string | null;
-  sentAt: string | null;
+  text: string;
+  sentBy: string;
+  sentAt: string;
 }
 
 interface Chat {
-  type: "personal" | "group" | null;
-  members: string[] | null;
-  createdBy: string | null;
-  createdAt: string | null;
-  title: string | null;
+  type: "personal" | "group";
+  members: string[];
+  createdBy: string;
+  createdAt: string;
+  title: string;
   lastMessage: ChatLastMessage;
-  avatar: string | null;
+  avatar: string;
   id: string;
-  isPartnerOnline: boolean | null;
+  isPartnerOnline: boolean;
 }
 
 export const ChatList = () => {
@@ -140,11 +141,27 @@ export const ChatList = () => {
         <NoChats />
         :
         filteredChatsList && searchQuery ? filteredChatsList.map((chat) => (
-          <ChatItem key={chat.id} type={chat.type} isOnline={chat.isPartnerOnline} id={chat.id} title={chat.title} avatar={chat.avatar} lastMessage={chat.lastMessage} />
+          <ChatItem
+            key={chat.id}
+            type={chat.type}
+            isOnline={chat.isPartnerOnline}
+            id={chat.id}
+            title={chat.title}
+            avatar={chat.avatar}
+            lastMessage={chat.lastMessage}
+          />
         ))
         :
         chats && chats.map((chat) => (
-          <ChatItem key={chat.id} type={chat.type} isOnline={chat.isPartnerOnline} id={chat.id} title={chat.title} avatar={chat.avatar} lastMessage={chat.lastMessage} />
+          <ChatItem
+            key={chat.id}
+            type={chat.type}
+            isOnline={chat.isPartnerOnline}
+            id={chat.id}
+            title={chat.title}
+            avatar={chat.avatar}
+            lastMessage={chat.lastMessage}
+          />
         ))
       }
     </Flex>

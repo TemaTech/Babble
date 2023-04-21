@@ -39,17 +39,17 @@ export const NewPersonalChatModal = () => {
   const closeModal = () => {
     onClose();
     setNewChatData(() => ({
-      type: null,
-      members: null,
-      createdBy: null,
-      createdAt: null,
-      title: null,
+      type: "personal",
+      members: [],
+      createdBy: "",
+      createdAt: "",
+      title: "",
       lastMessage: {
-        text: null,
-        sentAt: null,
-        sentBy: null,
+        text: "",
+        sentAt: "",
+        sentBy: "",
       },
-      avatar: null,
+      avatar: "",
     }));
   }
 
@@ -65,6 +65,19 @@ export const NewPersonalChatModal = () => {
           createdBy: auth.currentUser.uid,
         });
         await updateDoc(chatDocRef, { id: chatDocRef.id });
+
+        for (const member in newChatData.members) {
+          const memberDocRef = doc(db, "users", member);
+          const memberDocSnap = await getDoc(memberDocRef);
+          if (memberDocSnap.exists()) {
+            const newChatsArray = memberDocSnap.data().chats || [];
+            newChatsArray.push(chatDocRef.id);
+
+            await updateDoc(memberDocRef, {
+              chats: newChatsArray,
+            });
+          }
+        }
 
         const userDocRef = doc(db, "users", newChatData.members[1]);
         const userDocSnap = await getDoc(userDocRef);

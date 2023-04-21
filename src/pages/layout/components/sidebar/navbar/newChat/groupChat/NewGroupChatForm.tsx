@@ -33,7 +33,7 @@ export const NewGroupChatForm = () => {
         <Avatar src={newGroupChatAvatarsData.avatarPreview ? newGroupChatAvatarsData.avatarPreview : undefined} boxShadow='xl' size='lg' />
         <Heading color='gray.800' fontSize='lg'>{ newChatData.title }</Heading>
       </Flex>
-      <FormControl isRequired isInvalid={newChatData.title === ''}>
+      <FormControl isRequired isInvalid={newChatData.title === ""}>
         <FormLabel aria-required>Group title:</FormLabel>
         <Input maxLength={40} value={newChatData.title ? newChatData.title : undefined} onChange={(e) => setNewChatData((prev) => ({ ...prev, title: e.target.value }))} />
         <FormErrorMessage>This field is required.</FormErrorMessage>
