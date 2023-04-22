@@ -60,7 +60,7 @@ export const ChatGeneralData = () => {
   }, [chatId]);
 
   return (
-    <Flex gap='2'>
+    <Flex gap='2' align='center'>
       <Avatar bgGradient="linear(to-b, blue.300, blue.400)"  boxShadow='md' color='white' name={currentChatData?.title} src={currentChatData && currentChatData.avatar ? currentChatData.avatar : undefined}>
         {
           currentChatData && currentChatData.type === "personal" &&
@@ -68,18 +68,18 @@ export const ChatGeneralData = () => {
         }
       </Avatar>
       <Flex direction='column' justify='center'>
-        <Text color='gray.700' fontWeight='bold'>{ currentChatData && currentChatData.title }</Text>
+        <Text color='gray.700' fontWeight='bold' fontSize='sm'>{ currentChatData && currentChatData.title }</Text>
         {
           currentChatData?.type === "personal" &&
           currentChatData.isPartnerOnline ? 
-          <Text color='blue.500' fontSize='sm'>Online</Text>
+          <Text color='blue.500' fontSize='xs'>Online</Text>
           :
           currentChatData?.lastTimeSeen &&
-          <Text color='gray.500' fontSize='sm'>Last time seen: { currentChatData.lastTimeSeen }</Text>
+          <Text color='gray.500' fontSize='xs'>Last seen: { currentChatData.lastTimeSeen }</Text>
         }
         {
           currentChatData?.type === "group" &&
-          <Text color='gray.500' fontSize='sm'>{currentChatData?.members.length} members</Text>
+          <Text color='gray.500' fontSize='xs'>{currentChatData?.members.length} members</Text>
         }
       </Flex>
     </Flex>
