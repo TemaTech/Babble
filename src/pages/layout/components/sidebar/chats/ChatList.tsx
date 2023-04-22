@@ -9,7 +9,6 @@ import { ChatItem } from './chatItem/ChatItem'
 import Fuse from 'fuse.js'
 import { useAtom, useAtomValue } from "jotai";
 import { chatListSearchQuery, userChats } from '../../../../../store';
-import { v4 as uuidv4 } from 'uuid';
 
 interface ChatLastMessage {
   text: string;
@@ -144,11 +143,14 @@ export const ChatList = () => {
           <ChatItem
             key={chat.id}
             type={chat.type}
-            isOnline={chat.isPartnerOnline}
+            isPartnerOnline={chat.isPartnerOnline}
             id={chat.id}
             title={chat.title}
             avatar={chat.avatar}
             lastMessage={chat.lastMessage}
+            members={chat.members}
+            createdAt={chat.createdAt}
+            createdBy={chat.createdBy}
           />
         ))
         :
@@ -156,11 +158,14 @@ export const ChatList = () => {
           <ChatItem
             key={chat.id}
             type={chat.type}
-            isOnline={chat.isPartnerOnline}
+            isPartnerOnline={chat.isPartnerOnline}
             id={chat.id}
             title={chat.title}
             avatar={chat.avatar}
             lastMessage={chat.lastMessage}
+            members={chat.members}
+            createdAt={chat.createdAt}
+            createdBy={chat.createdBy}
           />
         ))
       }

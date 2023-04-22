@@ -6,23 +6,13 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { auth, db } from "../../../../../../firebase/config";
-import { newChat, userChats } from "../../../../../../store";
+import { userChats } from "../../../../../../store";
 import { formatDistanceToNow } from 'date-fns';
-
 
 interface ChatLastMessage {
   text: string;
   sentBy: string;
   sentAt: string;
-}
-
-interface Props {
-  title: string | null;
-  lastMessage: ChatLastMessage;
-  avatar: string | null;
-  id: string;
-  type: "personal" | "group" | null;
-  isOnline: boolean | null;
 }
 
 interface Chat {
@@ -37,33 +27,45 @@ interface Chat {
   isPartnerOnline: boolean;
 }
 
-export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Props) => {
+export const ChatItem = ({ id, title, avatar, lastMessage, type, isPartnerOnline, members, createdAt, createdBy }: Chat) => {
   const { chatId } = useParams();
   const [chats, setChats] = useAtom(userChats);
-  const [currentChatIndex, setCurrentChatIndex] = useState<number>();
-  const [chatItemObj, setChatItemObj] = useState<Chat>();
+  const [chatItemIndex, setChatItemIndex] = useState<number>();
+  const [chatObj, setChatObj] = useState<Chat>({
+    title: title,
+    lastMessage: lastMessage,
+    avatar: avatar,
+    id: id,
+    type: type,
+    isPartnerOnline: isPartnerOnline,
+    members: members,
+    createdAt: createdAt,
+    createdBy: createdBy,
+  });
   const [isSelected, setIsSelected] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (chatId && chatId === id) {
       setIsSelected(true);
-      setCurrentChatIndex(chats.findIndex(obj => obj.id === chatId));
     } else {
       setIsSelected(false);
     }
   }, [chatId]);
+
   const [lgBreakpoint] = useMediaQuery("(min-width: 62em)");
 
   useEffect(() => {
-    if (currentChatIndex) {
-      setChatItemObj(chats[currentChatIndex]);
+    if (chats && chatObj) {
+      const chatItemObj = chats.findIndex(chat => chat.id === chatObj.id);
+      if (chatItemObj) setChatItemIndex(chatItemObj);
     }
-  }, [currentChatIndex]);
+  }, [chats, chatObj]);
 
   useEffect(() => {
-    if (currentChatIndex) {
-      const chatDocRef = doc(db, "chats", chats[currentChatIndex].id);
+    if (chatObj && chatObj.id) {
+
+      const chatDocRef = doc(db, "chats", chatObj.id);
       const unsubscribeChat = onSnapshot(chatDocRef, chatSnapshot => {
         if (chatSnapshot.exists()) {
           const newChatData = chatSnapshot.data() as Chat;
@@ -73,7 +75,7 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Pro
             const unsubscribeLastMessageSentBy = onSnapshot(lastMessageSentByDocRef, userSnapshot => {
               if (userSnapshot.exists()) {
                 newChatData.lastMessage = { ...newChatData.lastMessage, sentBy: userSnapshot.data().name };
-                setChatItemObj(() => ({ ...newChatData }));
+                setChatObj(() => ({ ...newChatData }));
               }
             });
 
@@ -83,7 +85,7 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Pro
           if (newChatData.lastMessage.sentAt) {
             const formattedTime = formatDistanceToNow(new Date(newChatData.lastMessage.sentAt), { addSuffix: true });
             if (formattedTime) newChatData.lastMessage = { ...newChatData.lastMessage, sentAt: formattedTime };
-            setChatItemObj(() => ({ ...newChatData }));
+            setChatObj(() => ({ ...newChatData }));
           }
 
           if (newChatData.type === "personal" && auth.currentUser) {
@@ -94,7 +96,7 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Pro
                 newChatData.title = partnerSnapshot.data().name;
                 newChatData.avatar = partnerSnapshot.data().avatar;
                 newChatData.isPartnerOnline = partnerSnapshot.data().isOnline;
-                setChatItemObj(() => ({ ...newChatData }));
+                setChatObj(() => ({ ...newChatData }));
               }
             });
 
@@ -105,20 +107,20 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Pro
 
       return () => unsubscribeChat();
     }
-  }, [currentChatIndex]);
+  }, [chatObj, chatItemIndex]);
 
   useEffect(() => {
-    if (chatItemObj && currentChatIndex) {
+    if (chatObj && chatItemIndex) {
       const newChatsList = [...chats];
-      newChatsList[currentChatIndex] = chatItemObj;
-      setChats(newChatsList);
+      newChatsList[chatItemIndex] = { ...chatObj };
+      setChats(() => [...newChatsList]);
     }
-  }, [chatItemObj]);
+  }, [chatObj]);
 
   return (
-    <Flex direction='column' w='100%' key={id}>
+    <Flex direction='column' w='100%' key={chatObj.id}>
       <Flex
-        onClick={() => navigate(`/chat/${id}`)}
+        onClick={() => navigate(`/chat/${chatObj.id}`)}
         gap='3'
         p='3'
         cursor='pointer'
@@ -128,28 +130,28 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isOnline }: Pro
         bgGradient={isSelected ? "linear(to-br, #6f00ff, blue.300)" : undefined}
         boxShadow={isSelected ? 'md' : undefined}
       >
-        <Avatar src={avatar ? avatar : undefined} size='md' bgGradient="linear(to-b, blue.300, blue.400)" boxShadow='md' color='white' name={title ? title : undefined}>
+        <Avatar src={chatObj.avatar ? chatObj.avatar : undefined} size='md' bgGradient="linear(to-b, blue.300, blue.400)" boxShadow='md' color='white' name={title ? title : undefined}>
           {
             type === "personal" &&
-            <AvatarBadge bg={isOnline ? 'green.300' : 'gray.300'} boxSize='1em' />
+            <AvatarBadge bg={chatObj.isPartnerOnline ? 'green.300' : 'gray.300'} boxSize='1em' />
           }
         </Avatar>
         <Flex direction='column' gap='1' w='100%'>
           <Flex justify='space-between' gap='3'>
-            <Text color={isSelected ? 'white' : 'gray.700'} fontWeight='bold'>{ title }</Text>
+            <Text color={isSelected ? 'white' : 'gray.700'} fontWeight='bold'>{ chatObj.title }</Text>
             {
-              lastMessage.sentAt &&
-              <Text fontSize='xs' color={isSelected ? 'white' : 'gray.400'}>{ lastMessage.sentAt }</Text>
+              chatObj.lastMessage.sentAt &&
+              <Text fontSize='xs' color={isSelected ? 'white' : 'gray.400'}>{ chatObj.lastMessage.sentAt }</Text>
             }
           </Flex>
           {
-            lastMessage.sentBy &&
+            chatObj.lastMessage.sentBy &&
             <Flex direction='column'>
               {
-                type === 'group' &&
-                <Text fontSize='sm' color={isSelected ? 'white' : 'gray.600'} fontWeight='bold'>{ lastMessage.sentBy }</Text>
+                chatObj.type === 'group' &&
+                <Text fontSize='sm' color={isSelected ? 'white' : 'gray.600'} fontWeight='bold'>{ chatObj.lastMessage.sentBy }</Text>
               }
-              <Text fontSize='sm' noOfLines={[1, 2]} maxW='75%' color={isSelected ? 'white' : 'gray.500'}>{ lastMessage.text }</Text>
+              <Text fontSize='sm' noOfLines={[1, 2]} maxW='75%' color={isSelected ? 'white' : 'gray.500'}>{ chatObj.lastMessage.text }</Text>
             </Flex>
           }
         </Flex>
