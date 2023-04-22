@@ -9,12 +9,14 @@ import {
   MenuDivider,
   Icon,
 } from '@chakra-ui/react'
-import { HamburgerIcon, DeleteIcon } from '@chakra-ui/icons'
+import { HamburgerIcon } from '@chakra-ui/icons'
 import { useParams } from 'react-router'
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from '@firebase/firestore';
 import { auth, db } from '../../../firebase/config';
-import { MdOutlineExitToApp } from 'react-icons/md'
+import { LeaveGroupModal } from './LeaveGroupModal';
+import { DeleteChatModal } from './DeleteChatModal';
+import { DeleteGroupModal } from './DeleteGroupModal';
 
 export const ChatMenu = () => {
   const { chatId } = useParams();
@@ -48,22 +50,13 @@ export const ChatMenu = () => {
       <MenuList>
         {
           chatType === "personal" ?
-          <MenuItem display='flex' gap='2'>
-            <Icon as={MdOutlineExitToApp} color='red.400' />
-            <Text color='red.400'>Leave the chat</Text>
-          </MenuItem>
+          <DeleteChatModal />
           : chatType === "group" &&
-          <MenuItem display='flex' gap='2'>
-            <Icon as={MdOutlineExitToApp} color='red.400' />
-            <Text color='red.400'>Leave the group</Text>
-          </MenuItem>
+          <LeaveGroupModal />
         }
         {
           chatType === "group" && createdById === auth.currentUser?.uid &&
-          <MenuItem display='flex' gap='2'>
-            <Icon as={DeleteIcon} color='red.400' />
-            <Text color='red.400'>Delete the group</Text>
-          </MenuItem>
+          <DeleteGroupModal />
         }
         <MenuDivider />
         <Flex direction='column' gap='2' p='2'>

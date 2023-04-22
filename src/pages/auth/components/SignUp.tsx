@@ -141,7 +141,6 @@ export const SignUp = () => {
           await setDoc(doc(db, "users", auth.currentUser.uid), {
             name: signUpForm.name,
             email: signUpForm.email,
-            chats: [],
             uid: auth.currentUser.uid,
             avatar: null,
             lastTimeSeen: null,

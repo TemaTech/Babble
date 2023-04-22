@@ -75,19 +75,6 @@ export const NewGroupChatModal = () => {
         });
         await updateDoc(chatDocRef, { id: chatDocRef.id });
 
-        for (const memberIndex in newChatData.members) {
-          const memberDocRef = doc(db, "users", newChatData.members[memberIndex]);
-          const memberDocSnap = await getDoc(memberDocRef);
-          if (memberDocSnap.exists()) {
-            const newChatsArray = memberDocSnap.data().chats || [];
-            newChatsArray.push(chatDocRef.id);
-
-            await updateDoc(memberDocRef, {
-              chats: newChatsArray,
-            });
-          }
-        }
-
         if (newGroupChatAvatarsData.avatar) {
           const storage = getStorage();
           const storageRef = ref(storage, `chats/${chatDocRef.id}`);

@@ -33,6 +33,7 @@ export const ChatList = () => {
   const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
   const [isLoading, setIsLoading] = useState(true);
   const searchQuery = useAtomValue(chatListSearchQuery);
+  const [userChatIds, setUserChatIds] = useState<string[]>([]);
 
   const getPersonalChatPartnerData = async (chatObj: Chat) => {
     if (chatObj.type === 'personal' && chatObj.members) {
@@ -111,7 +112,7 @@ export const ChatList = () => {
     });
 
     return () => unsubscribe();
-  }, [db, currentUserId]);
+  }, [db, currentUserId, userChatIds]);
 
   const [filteredChatsList, setFilteredChatsList] = useState<Chat[]>();
   const [fuse, setFuse] = useState<Fuse<Chat>>();

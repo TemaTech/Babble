@@ -66,19 +66,6 @@ export const NewPersonalChatModal = () => {
         });
         await updateDoc(chatDocRef, { id: chatDocRef.id });
 
-        for (const member in newChatData.members) {
-          const memberDocRef = doc(db, "users", member);
-          const memberDocSnap = await getDoc(memberDocRef);
-          if (memberDocSnap.exists()) {
-            const newChatsArray = memberDocSnap.data().chats || [];
-            newChatsArray.push(chatDocRef.id);
-
-            await updateDoc(memberDocRef, {
-              chats: newChatsArray,
-            });
-          }
-        }
-
         const userDocRef = doc(db, "users", newChatData.members[1]);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
