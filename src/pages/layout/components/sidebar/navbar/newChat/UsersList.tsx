@@ -39,11 +39,11 @@ export const UsersList = ({ usersList, setIsSuggestionsListHovered, setIsFocused
       {
         newChatData.type === "personal" ?
         usersList.map((user) => (
-          <PersonalChatUsersListItem key={user.email} user={user} setIsSuggestionsListHovered={setIsSuggestionsListHovered} setIsFocusedOnInput={setIsFocusedOnInput} />
+          <PersonalChatUsersListItem key={user.uid} user={user} setIsSuggestionsListHovered={setIsSuggestionsListHovered} setIsFocusedOnInput={setIsFocusedOnInput} />
         ))
         : newChatData.type === 'group' &&
         usersList.map((user) => (
-          <GroupChatUsersListItem key={user.email} user={user} setIsSuggestionsListHovered={setIsSuggestionsListHovered} setIsFocusedOnInput={setIsFocusedOnInput} />
+          <GroupChatUsersListItem key={user.uid} user={user} setIsSuggestionsListHovered={setIsSuggestionsListHovered} setIsFocusedOnInput={setIsFocusedOnInput} />
         ))
       }
     </Flex>

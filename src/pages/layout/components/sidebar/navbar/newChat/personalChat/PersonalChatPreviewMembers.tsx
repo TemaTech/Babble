@@ -11,7 +11,6 @@ import { Icon, Spinner } from '@chakra-ui/react'
 interface UserData {
   name: string;
   avatar: string | null;
-  isOnline: boolean;
   uid: string;
 }
 
@@ -34,14 +33,12 @@ export const PersonalChatPreviewMembers = () => {
           setUser1Data({
             name: docSnapUser1.data().name,
             avatar: docSnapUser1.data().avatar,
-            isOnline: docSnapUser1.data().isOnline,
             uid: docSnapUser1.data().uid,
           });
 
           setUser2Data({
             name: docSnapUser2.data().name,
             avatar: docSnapUser2.data().avatar,
-            isOnline: docSnapUser2.data().isOnline,
             uid: docSnapUser2.data().uid,
           });
         }
@@ -55,7 +52,6 @@ export const PersonalChatPreviewMembers = () => {
     <Grid templateColumns='1fr auto 1fr' placeItems='center' gap='4'>
       <Flex direction='column' gap='2' align='center' justify='center'>
         <Avatar src={user1Data.avatar ? user1Data.avatar : undefined} boxShadow='xl' size='lg' bgGradient="linear(to-b, blue.300, blue.400)" color='white' name={user1Data.name}>
-          <AvatarBadge boxSize='1em' bg={user1Data.isOnline ? 'green.400' : 'gray.300'} />
         </Avatar>
         <Text textAlign='center' fontWeight='bold' color='gray.700'>{ user1Data.name }</Text>
         <Text textAlign='center' color='gray.400'>(You)</Text>
@@ -63,7 +59,6 @@ export const PersonalChatPreviewMembers = () => {
       <Icon as={BsChatDots} fontSize='xl' color='gray.400' />
       <Flex direction='column' gap='2' align='center' justify='center'>
         <Avatar src={user2Data.avatar ? user2Data.avatar : undefined} boxShadow='xl' size='lg' bgGradient="linear(to-b, blue.300, blue.400)" color='white' name={user2Data.name}>
-          <AvatarBadge boxSize='1em' bg={user2Data.isOnline ? 'green.400' : 'gray.300'} />
         </Avatar>
         <Text textAlign='center' fontWeight='bold' color='gray.700'>{ user2Data.name }</Text>
         <Text textAlign='center' color='gray.400'>(Your partner)</Text>

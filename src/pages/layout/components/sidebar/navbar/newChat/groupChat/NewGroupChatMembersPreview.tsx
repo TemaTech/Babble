@@ -11,7 +11,6 @@ import { CloseIcon } from '@chakra-ui/icons'
 interface User {
   name: string;
   avatar: string;
-  isOnline: boolean;
   uid: string;
 }
 
@@ -26,7 +25,6 @@ export const NewGroupChatMembersPreview = () => {
       membersList.push({
         name: docSnap.data().name,
         avatar: docSnap.data().avatar,
-        isOnline: docSnap.data().isOnline,
         uid: docSnap.data().uid,
       });
     }
@@ -58,7 +56,6 @@ export const NewGroupChatMembersPreview = () => {
         usersList.map((user) => (
           <WrapItem key={user.uid} alignItems='center' display='flex' flexDirection='row' p='2' gap='4' bg='gray.100' borderRadius='5'>
             <Avatar bgGradient="linear(to-b, blue.300, blue.400)"  boxShadow='md' color='white' name={user.name ? user.name : undefined} size='sm' src={user.avatar ? user.avatar : undefined}>
-              <AvatarBadge bg={user.isOnline ? 'green.400' : 'gray.300'} boxSize='1em' />
             </Avatar>
             <Text textAlign='center' fontWeight='bold' color='gray.700' fontSize='md'>{ user.name }</Text>
             {

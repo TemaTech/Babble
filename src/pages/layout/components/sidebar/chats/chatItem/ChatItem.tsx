@@ -95,7 +95,6 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isPartnerOnline
               if (partnerSnapshot.exists()) {
                 newChatData.title = partnerSnapshot.data().name;
                 newChatData.avatar = partnerSnapshot.data().avatar;
-                newChatData.isPartnerOnline = partnerSnapshot.data().isOnline;
                 setChatObj(() => ({ ...newChatData }));
               }
             });
@@ -131,10 +130,6 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isPartnerOnline
         boxShadow={isSelected ? 'md' : undefined}
       >
         <Avatar src={chatObj.avatar ? chatObj.avatar : undefined} size='md' bgGradient="linear(to-b, blue.300, blue.400)" boxShadow='md' color='white' name={title ? title : undefined}>
-          {
-            type === "personal" &&
-            <AvatarBadge bg={chatObj.isPartnerOnline ? 'green.300' : 'gray.300'} boxSize='1em' />
-          }
         </Avatar>
         <Flex direction='column' gap='1' w='100%'>
           <Flex justify='space-between' gap='3'>

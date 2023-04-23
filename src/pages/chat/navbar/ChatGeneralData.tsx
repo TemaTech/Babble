@@ -33,13 +33,10 @@ export const ChatGeneralData = () => {
               const partnerDocRef = doc(db, "users", partnerUid);
               unsubscribePartner = onSnapshot(partnerDocRef, snapshot => {
                 if (snapshot.exists()) {
-                  const time = formatDistanceToNow(new Date(snapshot.data().lastTimeSeen), { addSuffix: true });
                   setCurrentChatData(() => ({
                     ...chatData,
                     avatar: snapshot.data().avatar,
                     title: snapshot.data().name,
-                    isPartnerOnline: snapshot.data().isOnline,
-                    lastTimeSeen: time,
                   }));
                 }
               });
@@ -62,21 +59,9 @@ export const ChatGeneralData = () => {
   return (
     <Flex gap='2' align='center'>
       <Avatar bgGradient="linear(to-b, blue.300, blue.400)"  boxShadow='md' color='white' name={currentChatData?.title} src={currentChatData && currentChatData.avatar ? currentChatData.avatar : undefined}>
-        {
-          currentChatData && currentChatData.type === "personal" &&
-          <AvatarBadge bg={currentChatData.isPartnerOnline ? "green.300" : "gray.300"} boxSize='1em' />
-        }
       </Avatar>
       <Flex direction='column' justify='center'>
-        <Text color='gray.700' fontWeight='bold' fontSize='sm'>{ currentChatData && currentChatData.title }</Text>
-        {
-          currentChatData?.type === "personal" &&
-          currentChatData.isPartnerOnline ? 
-          <Text color='blue.500' fontSize='xs'>Online</Text>
-          :
-          currentChatData?.lastTimeSeen &&
-          <Text color='gray.500' fontSize='xs'>Last seen: { currentChatData.lastTimeSeen }</Text>
-        }
+        <Text color='gray.700' fontWeight='bold' fontSize='md'>{ currentChatData && currentChatData.title }</Text>
         {
           currentChatData?.type === "group" &&
           <Text color='gray.500' fontSize='xs'>{currentChatData?.members.length} members</Text>

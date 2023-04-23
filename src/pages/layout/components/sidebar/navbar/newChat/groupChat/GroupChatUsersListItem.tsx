@@ -50,7 +50,6 @@ export const GroupChatUsersListItem = ({ user, setIsFocusedOnInput, setIsSuggest
       }}
     >
       <Avatar name={user.name} boxShadow='md' src={user.avatar} bgGradient="linear(to-b, blue.300, blue.400)" color='white'>
-        <AvatarBadge boxSize='1em' bg={user.isOnline ? 'green.300' : 'gray.300'} />
       </Avatar>
       <Flex direction='column'>
         <Text fontWeight='bold' color='gray.700'>{ user.name }</Text>
