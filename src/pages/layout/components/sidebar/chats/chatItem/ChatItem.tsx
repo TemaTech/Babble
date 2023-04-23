@@ -74,18 +74,16 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isPartnerOnline
             const lastMessageSentByDocRef = doc(db, "users", newChatData.lastMessage.sentBy);
             const unsubscribeLastMessageSentBy = onSnapshot(lastMessageSentByDocRef, userSnapshot => {
               if (userSnapshot.exists()) {
-                newChatData.lastMessage = { ...newChatData.lastMessage, sentBy: userSnapshot.data().name };
-                setChatObj(() => ({ ...newChatData }));
+                const formattedTime = formatDistanceToNow(new Date(newChatData.lastMessage.sentAt), { addSuffix: true });
+                setChatObj(() => ({ ...chatObj, lastMessage: {
+                  sentBy: userSnapshot.data().name,
+                  sentAt: formattedTime,
+                  text: chatSnapshot.data().lastMessage.text,
+                } }));
               }
             });
 
             return () => unsubscribeLastMessageSentBy();
-          }
-
-          if (newChatData.lastMessage.sentAt) {
-            const formattedTime = formatDistanceToNow(new Date(newChatData.lastMessage.sentAt), { addSuffix: true });
-            if (formattedTime) newChatData.lastMessage = { ...newChatData.lastMessage, sentAt: formattedTime };
-            setChatObj(() => ({ ...newChatData }));
           }
 
           if (newChatData.type === "personal" && auth.currentUser) {
@@ -93,9 +91,7 @@ export const ChatItem = ({ id, title, avatar, lastMessage, type, isPartnerOnline
             const partnerDocRef = doc(db, "users", partnerId);
             const unsubscribePartner = onSnapshot(partnerDocRef, partnerSnapshot => {
               if (partnerSnapshot.exists()) {
-                newChatData.title = partnerSnapshot.data().name;
-                newChatData.avatar = partnerSnapshot.data().avatar;
-                setChatObj(() => ({ ...newChatData }));
+                setChatObj(() => ({ ...chatObj, title: partnerSnapshot.data().name, avatar: partnerSnapshot.data().avatar }));
               }
             });
 
