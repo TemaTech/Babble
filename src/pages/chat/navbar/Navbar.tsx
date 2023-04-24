@@ -11,7 +11,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <Flex align='center' position='absolute' top='4' right='4' left='4' p='2' gap='2' bg='whiteAlpha.600' h='fit-content' borderRadius='2xl' boxShadow='sm'>
+    <Flex zIndex='1' align='center' position='absolute' top='4' right='4' left='4' p='2' gap='2' bg='gray.50' h='fit-content' borderRadius='2xl' boxShadow='sm'>
       {
         !lgBreakpoint &&
         <IconButton onClick={() => navigate("/")} icon={<ChevronLeftIcon />} aria-label="Return" fontSize='2xl' borderRadius='xl' colorScheme='blue' variant='ghost' />

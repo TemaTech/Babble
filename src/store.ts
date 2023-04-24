@@ -111,3 +111,5 @@ interface Chat {
 }
 
 export const userChats = atom<Chat[]>([]);
+
+export const chatDivRef = atom<React.MutableRefObject<HTMLDivElement | null> | null>(null);

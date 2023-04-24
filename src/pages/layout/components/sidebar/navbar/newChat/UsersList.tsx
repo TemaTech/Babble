@@ -35,6 +35,8 @@ export const UsersList = ({ usersList, setIsSuggestionsListHovered, setIsFocused
       boxShadow='md'
       onMouseEnter={() => setIsSuggestionsListHovered(true)}
       onMouseLeave={() => setIsSuggestionsListHovered(false)}
+      maxH='30vh'
+      overflowY='auto'
     >
       {
         newChatData.type === "personal" ?
