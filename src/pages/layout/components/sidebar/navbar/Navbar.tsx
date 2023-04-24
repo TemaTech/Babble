@@ -1,7 +1,7 @@
-import { DropdownMenu } from './DropdownMenu'
 import { Flex } from "@chakra-ui/layout";
-import { SearchBar } from './SearchBar';
+import { DropdownMenu } from "./DropdownMenu";
 import { NewChatMenu } from './NewChatMenu'
+import { SearchBar } from "./SearchBar";
 
 export const Navbar = () => {
   return (
